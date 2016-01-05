@@ -27,7 +27,11 @@ $this->params['breadcrumbs'][] = $this->title;
 
             'branch_name',
             'branch_address',
-            'companiesCompany.company_name',
+            // 'companiesCompany.company_name',
+            [
+                'attribute' => 'companies_company_id',
+                'value' => 'companiesCompany.company_name'
+            ],
 
             ['class' => 'yii\grid\ActionColumn'],
         ],
