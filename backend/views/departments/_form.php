@@ -17,7 +17,7 @@ use backend\models\Branches;
 
     <?= $form->field($model, 'department_name')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'companies_company_id')->dropDownList(
+    <?= $form->field($model, 'branches_branch_id')->dropDownList(
     	ArrayHelper::map(Branches::find()->all(),'branch_id','branch_name'),
     	['prompt' => 'Select Branch']
     ) ?>
