@@ -8,6 +8,7 @@ use backend\models\BranchesSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\ForbiddenHttpException;
 
 /**
  * BranchesController implements the CRUD actions for Branches model.
@@ -60,16 +61,20 @@ class BranchesController extends Controller
      */
     public function actionCreate()
     {
-        $model = new Branches();
+        if( Yii::$app->user->can( 'create-branch' )) {
+            $model = new Branches();
 
-        if ($model->load(Yii::$app->request->post())) {
-             $model->branch_created_date = date('Y-m-d h:i:s a');
-             $model->save();
-             return $this->redirect(['view', 'id' => $model->branch_id]);
+            if ($model->load(Yii::$app->request->post())) {
+                 $model->branch_created_date = date('Y-m-d h:i:s a');
+                 $model->save();
+                 return $this->redirect(['view', 'id' => $model->branch_id]);
+            } else {
+                return $this->render('create', [
+                    'model' => $model,
+                ]);
+            }
         } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
+            throw new ForbiddenHttpException;
         }
     }
 
@@ -118,6 +123,26 @@ class BranchesController extends Controller
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
+        }
+    }
+
+    public function actionList($company_id){
+
+
+        $countBranches = Branches::find()
+            ->where(['companies_company_id' => $company_id])
+            ->count();
+
+        $branches = Branches::find()
+            ->where(['companies_company_id' => $company_id])
+            ->all();
+
+        if($countBranches>0){
+            foreach($branches as $branch){
+                echo '<option value="'.$branch->branch_id.'">'.$branch->branch_name.'</option>';
+            }
+        }else{
+            echo '<option>Select Branch</option>';
         }
     }
 }

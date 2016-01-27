@@ -3,18 +3,17 @@
 namespace backend\controllers;
 
 use Yii;
-use backend\models\Companies;
-use backend\models\CompaniesSearch;
+use backend\models\Emails;
+use backend\models\EmailsSearch;
+use yii\web\UploadedFile;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use yii\web\UploadedFile;
-use yii\web\ForbiddenHttpException;
 
 /**
- * CompaniesController implements the CRUD actions for Companies model.
+ * EmailsController implements the CRUD actions for Emails model.
  */
-class CompaniesController extends Controller
+class EmailsController extends Controller
 {
     public function behaviors()
     {
@@ -29,12 +28,12 @@ class CompaniesController extends Controller
     }
 
     /**
-     * Lists all Companies models.
+     * Lists all Emails models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new CompaniesSearch();
+        $searchModel = new EmailsSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -44,7 +43,7 @@ class CompaniesController extends Controller
     }
 
     /**
-     * Displays a single Companies model.
+     * Displays a single Emails model.
      * @param integer $id
      * @return mixed
      */
@@ -56,39 +55,60 @@ class CompaniesController extends Controller
     }
 
     /**
-     * Creates a new Companies model.
+     * Creates a new Emails model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        if( Yii::$app->user->can( 'create-company' )) {
-            $model = new Companies();
+        $model = new Emails();
 
-            if ($model->load(Yii::$app->request->post())) {
+        if ($model->load(Yii::$app->request->post())) {
+            $model->attachment = UploadedFile::getInstance($model,'attachment');
 
-                 // get the instance of the uploaded file
-                 $imageName = $model->company_name;
-                 $model->file = UploadedFile::getInstance($model, 'file');
-                 $model->file->saveAs('uploads/' . $imageName . '.' . $model->file->extension );
-
-                 // save the path in the db column
-                 $model->logo = 'uploads/' . $imageName . '.' . $model->file->extension;
-                 $model->company_created_date = date('Y-m-d h:i:s a');
-                 $model->save();
-                 return $this->redirect(['view', 'id' => $model->company_id]);
-            } else {
-                return $this->render('create', [
-                    'model' => $model,
-                ]);
+print_r($_POST);
+// print_r($_FILES);
+// die;
+            if($model->attachment){
+                $time = time();
+                $model->attachment->saveAs('uploads/'.$time.$model->attachment->extension);
+                $model->attachment = 'uploads/'.$time.'.'.$model->attachment->extension;
             }
+
+print_r($model->attachment);
+// print_r($_FILES);
+die;
+            if($model->attachment){
+                $value = Yii::$app->mailer->compose()
+                    ->setFrom(['asdf@asdf.com'=>'DoingItEasyChannel'])
+                    ->setTo($model->reciever_email)
+                    ->setSubject($model->subject)
+                    ->setHtmlBody($model->conntent)
+                    ->attach($model->attachment)
+                    ->send();
+            }else{
+                // $value = Yii::$app->mailer->compose()
+                //     ->setFrom(['asdf@asdf.com'=>'DoingItEasyChannel'])
+                //     ->setTo($model->reciever_email)
+                //     ->setSubject($model->subject)
+                //     ->setHtmlBody($model->conntent)
+                //     ->send();
+
+            }
+
+            $model->save();
+print_r($model->getErrors());
+die('y');
+            return $this->redirect(['view', 'id' => $model->id]);
         } else {
-            throw new ForbiddenHttpException;
+            return $this->render('create', [
+                'model' => $model,
+            ]);
         }
     }
 
     /**
-     * Updates an existing Companies model.
+     * Updates an existing Emails model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -98,7 +118,7 @@ class CompaniesController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->company_id]);
+            return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [
                 'model' => $model,
@@ -107,7 +127,7 @@ class CompaniesController extends Controller
     }
 
     /**
-     * Deletes an existing Companies model.
+     * Deletes an existing Emails model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -120,15 +140,15 @@ class CompaniesController extends Controller
     }
 
     /**
-     * Finds the Companies model based on its primary key value.
+     * Finds the Emails model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Companies the loaded model
+     * @return Emails the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Companies::findOne($id)) !== null) {
+        if (($model = Emails::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

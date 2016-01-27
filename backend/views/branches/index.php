@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use yii\widgets\Pjax;
 
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\BranchesSearch */
@@ -19,7 +20,38 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a('Create Branches', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
+    <?php Pjax::begin();?>
     <?= GridView::widget([
+        'rowOptions' => function($model, $key, $index, $grid){ // ?? how $model gets its values ????????????
+                // echo PHP_EOL;
+                // echo PHP_EOL;
+                // echo PHP_EOL;
+                // echo PHP_EOL;
+                // echo PHP_EOL;
+
+                // echo 'model : ';
+                // print_r($model);
+                // echo PHP_EOL;
+
+                // echo 'key : ';
+                // print_r($key);
+                // echo PHP_EOL;
+
+                // echo 'index : ';
+                // print_r($index);
+                // echo PHP_EOL;
+
+                // echo 'grid : ';
+                // print_r($grid);
+                // echo PHP_EOL;
+
+            if($model->branch_status == 'inactive'){
+                return ['class' => 'danger'];
+            }else{
+                return ['class' => 'success'];
+            }
+        },
+        // 'rowOptions' => ['c'=>'CC'],
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
@@ -34,7 +66,10 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
 
             ['class' => 'yii\grid\ActionColumn'],
+
+            'branch_status',
         ],
     ]); ?>
+    <?php Pjax::end();?>
 
 </div>
