@@ -5,6 +5,8 @@ namespace backend\controllers;
 use Yii;
 use backend\models\Companies;
 use backend\models\CompaniesSearch;
+use backend\models\Branches;
+use backend\models\BranchesSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -63,23 +65,32 @@ class CompaniesController extends Controller
     public function actionCreate()
     {
         if( Yii::$app->user->can( 'create-company' )) {
-            $model = new Companies();
+            $company = new Companies();
+            $branch = new Branches();
 
-            if ($model->load(Yii::$app->request->post())) {
-
+            if ( ($company->load(Yii::$app->request->post())) && ($branch->load(Yii::$app->request->post())) ) {
+// print_r($company); 
+// print_r($branch); 
+// die;
                  // get the instance of the uploaded file
-                 $imageName = $model->company_name;
-                 $model->file = UploadedFile::getInstance($model, 'file');
-                 $model->file->saveAs('uploads/' . $imageName . '.' . $model->file->extension );
+                 $imageName = $company->company_name;
+                 $company->file = UploadedFile::getInstance($company, 'file');
+                 $company->file->saveAs('uploads/' . $imageName . '.' . $company->file->extension );
 
                  // save the path in the db column
-                 $model->logo = 'uploads/' . $imageName . '.' . $model->file->extension;
-                 $model->company_created_date = date('Y-m-d h:i:s a');
-                 $model->save();
-                 return $this->redirect(['view', 'id' => $model->company_id]);
+                 $company->logo = 'uploads/' . $imageName . '.' . $company->file->extension;
+                 $company->company_created_date = date('Y-m-d h:i:s a');
+                 $company->save();
+
+                 // save branches
+                 $branch->branch_created_date = date('Y-m-d h:i:s a');
+                 $branch->save();
+
+                 return $this->redirect(['view', 'id' => $company->company_id]);
             } else {
                 return $this->render('create', [
-                    'model' => $model,
+                    'company' => $company,
+                    'branch' => $branch
                 ]);
             }
         } else {
