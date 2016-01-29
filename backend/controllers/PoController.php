@@ -3,6 +3,7 @@
 namespace backend\controllers;
 
 use Yii;
+use backend\models\Model;
 use backend\models\Po;
 use backend\models\PoSearch;
 use backend\models\PoItem;
@@ -62,14 +63,44 @@ class PoController extends Controller
     public function actionCreate()
     {
         $model = new Po();
-        $modelsPoItem = new PoItem();
+        $modelsPoItem = [new PoItem()];
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+
+            $modelsPoItem = Model::createMultiple(PoItem::classname());
+            Model::loadMultiple($modelsPoItem, Yii::$app->request->post());
+
+            // validate all models
+            $valid = $model->validate();
+            $valid = Model::validateMultiple($modelsPoItem) && $valid;
+
+            if ($valid) {
+                $transaction = \Yii::$app->db->beginTransaction();
+                try {
+                    if ($flag = $model->save(false)) {
+                        foreach ($modelsPoItem as $modelPoItem) {
+                            $modelPoItem->po_id = $model->id;
+                            if (! ($flag = $modelPoItem->save(false))) {
+                                $transaction->rollBack();
+                                break;
+                            }
+                        }
+                    }
+                    if ($flag) {
+                        $transaction->commit();
+                        return $this->redirect(['view', 'id' => $model->id]);
+                    }
+                } catch (Exception $e) {
+                    $transaction->rollBack();
+                }
+            }
+
+            // return $this->redirect(['view', 'id' => $model->id]);
+
         } else {
             return $this->render('create', [
                 'model' => $model,
-                'modelsPoItem' => (empty($modelPoItem) ? [new PoItem ]: $modelPoItem) ,
+                'modelsPoItem' => (empty($modelsPoItem) ? [new PoItem ]: $modelsPoItem) ,
             ]);
         }
     }
