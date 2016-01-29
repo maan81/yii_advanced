@@ -42,3 +42,11 @@ CREATE TABLE IF NOT EXISTS `po_item` (
 
 ALTER TABLE `po_item`
   ADD CONSTRAINT `po_item_ibfk_1` FOREIGN KEY (`po_id`) REFERENCES `po` (`id`);
+
+======================================================
+
+ALTER TABLE `po_item` DROP FOREIGN KEY `po_item_ibfk_1` ;
+
+ALTER TABLE `po_item` ADD CONSTRAINT `po_item_ibfk_1` FOREIGN KEY ( `po_id` ) REFERENCES `yii2advanced`.`po` (
+`id`
+) ON DELETE CASCADE ON UPDATE CASCADE ;
