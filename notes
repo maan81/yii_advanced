@@ -1,0 +1,28 @@
+
+----------------------------------------------------------------------------------------------------
+Module generation
+----------------------------------------------------------------------------------------------------
+module generator --------> module class -------> backend\modules\forums\Forums
+                 --------> module id ----------> forums
+
+backend/config/main.php -> modules ------------> 'forums' => [
+                                                     'class' => 'backend\modules\forums\Forums',
+                                                 ],
+
+sql ---------------------> CREATE TABLE IF NOT EXISTS `forums` (
+                             `id` int(11) NOT NULL AUTO_INCREMENT,
+                             `text` text COLLATE utf8_unicode_ci NOT NULL,
+                             `username` int(127) NOT NULL,
+                             PRIMARY KEY (`id`)
+                           ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+
+Model Generator ---------> Table Name         -> forums
+                ---------> Model Class        -> Forums
+                ---------> Namespace          -> backend\modules\forums\models
+
+CRUD Generator ----------> Model Classs       -> backend\modules\forums\models\Forums
+               ----------> Search Model Class -> backend\modules\forums\models\ForumsSearch
+               ----------> Controller Class   -> backend\modules\forums\controllers\ForumsController
+               ----------> View Path          -> ..\modules\forums\views\forums
+----------------------------------------------------------------------------------------------------
