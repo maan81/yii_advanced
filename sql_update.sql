@@ -50,3 +50,14 @@ ALTER TABLE `po_item` DROP FOREIGN KEY `po_item_ibfk_1` ;
 ALTER TABLE `po_item` ADD CONSTRAINT `po_item_ibfk_1` FOREIGN KEY ( `po_id` ) REFERENCES `yii2advanced`.`po` (
 `id`
 ) ON DELETE CASCADE ON UPDATE CASCADE ;
+
+======================================================
+
+
+INSERT INTO `po` (`id`, `po_no`, `description`) VALUES
+(3, 'po-1', 'Some description');
+
+
+INSERT INTO `po_item` (`id`, `po_item_no`, `quantity`, `po_id`) VALUES
+(11, 'po-item-1', 10, 3),
+(12, 'po-item-2', 20, 3);
