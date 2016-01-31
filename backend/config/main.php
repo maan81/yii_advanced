@@ -18,6 +18,9 @@ return [
         'x' => [
                     'class' => 'backend\modules\x\X',
             ],
+        'forums' => [
+            'class' => 'backend\modules\forums\Forums',
+        ]
     ],
     'components' => [
         'user' => [
