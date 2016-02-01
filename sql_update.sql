@@ -61,3 +61,19 @@ INSERT INTO `po` (`id`, `po_no`, `description`) VALUES
 INSERT INTO `po_item` (`id`, `po_item_no`, `quantity`, `po_id`) VALUES
 (11, 'po-item-1', 10, 3),
 (12, 'po-item-2', 20, 3);
+
+======================================================
+
+
+CREATE TABLE IF NOT EXISTS `event` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(127) COLLATE utf8_unicode_ci NOT NULL,
+  `description` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `created_date` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=3 ;
+
+
+INSERT INTO `event` (`id`, `title`, `description`, `created_date`) VALUES
+(1, 'Test Event', 'Some test event description', '2016-02-01 08:00:00'),
+(2, 'a', 'b', '2016-02-01 12:00:00');
