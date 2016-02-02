@@ -32,6 +32,9 @@ class EventController extends Controller
      */
     public function actionIndex()
     {
+        $searchModel = new EventSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
         $events = Event::find()->all();
 
         $tasks = [];
@@ -49,6 +52,8 @@ class EventController extends Controller
 
         return $this->render('index', [
             'events' => $tasks,
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
         ]);
     }
 
@@ -76,7 +81,7 @@ class EventController extends Controller
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
-            return $this->render('create', [
+            return $this->renderAjax('create', [
                 'model' => $model,
             ]);
         }
