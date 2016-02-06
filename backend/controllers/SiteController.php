@@ -61,13 +61,13 @@ class SiteController extends Controller
             'converted_currency' => 'EUR',
         ];
 
-        $currency['converted_amount'] = Yii::$app->MyComponent->currencyConverter(
-            $currency['base_currency'],
-            $currency['converted_currency'],
-            $currency['base_amount']
-        );
+        // $currency['converted_amount'] = Yii::$app->MyComponent->currencyConverter(
+        //     $currency['base_currency'],
+        //     $currency['converted_currency'],
+        //     $currency['base_amount']
+        // );
 
-        $currency['rate'] = round($currency['base_amount'] / $currency['converted_amount'], 2);
+        // $currency['rate'] = round($currency['base_amount'] / $currency['converted_amount'], 2);
 
         return $this->render('index', [
             'hello' => Yii::$app->MyComponent->hello(),
