@@ -21,6 +21,7 @@ class DashBoardAsset extends AssetBundle
         // 'css/site.css',
         'css/font-awesome.min.css',
         'css/ionicons.min.css',
+        'css/googleapis.css',
         'css/AdminLTE.min.css',
         'css/skins/_all-skins.min.css',
         "plugins/iCheck/flat/blue.css",
@@ -38,6 +39,7 @@ class DashBoardAsset extends AssetBundle
         // <script>
         //   $.widget.bridge('uibutton', $.ui.button);
         // </script>
+        "js/bridget_conflict.js",
 
         // "bootstrap/js/bootstrap.min.js",
 
@@ -54,10 +56,8 @@ class DashBoardAsset extends AssetBundle
         "plugins/slimScroll/jquery.slimscroll.min.js",
         "plugins/fastclick/fastclick.min.js",
         "js/app.min.js",
-        // <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-        // <script src="dist/js/pages/dashboard.js"></script>
-        // <!-- AdminLTE for demo purposes -->
-        // <script src="dist/js/demo.js"></script>
+        "js/pages/dashboard.js",
+        "js/demo.js"
     ];
     public $depends = [
         'yii\web\YiiAsset',
