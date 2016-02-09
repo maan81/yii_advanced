@@ -4,7 +4,6 @@
  * @copyright Copyright (c) 2008 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
-// die('x');
 namespace backend\assets;
 
 use yii\web\AssetBundle;
@@ -18,10 +17,12 @@ class LoginAsset extends AssetBundle
     public $basePath = '@webroot';
     public $baseUrl = '@web';
     public $css = [
-        'css/site.css',
+        'css/font-awesome.min.css',
+        'css/AdminLTE.min.css',
+        'plugins/iCheck/flat/blue.css',
     ];
     public $js = [
-        'js/main.js',
+        'plugins/iCheck/icheck.min.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',
