@@ -23,7 +23,8 @@
         "wbraganca/yii2-dynamicform": "*",
         "kartik-v/yii2-grid": "@dev",
         "fxp/composer-asset-plugin": "~1.0",
-        "philippfrenzel/yii2fullcalendar": "*"
+        "philippfrenzel/yii2fullcalendar": "*",
+        "kartik-v/yii2-editable": "*"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",

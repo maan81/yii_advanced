@@ -9,6 +9,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\ForbiddenHttpException;
+use yii\helpers\Json;
 
 /**
  * BranchesController implements the CRUD actions for Branches model.
@@ -35,6 +36,27 @@ class BranchesController extends Controller
     {
         $searchModel = new BranchesSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        // print_r(Yii::$app->request->post('hasEditable'));
+        // var_dump(Yii::$app->request->post('hasEditable'));
+        // die;
+
+        if(Yii::$app->request->post('hasEditable')){
+            $branch_id = Yii::$app->request->post('editableKey');
+            $branch = Branch::findOne($branch_id);
+
+            $out = Json::encode(['output'=>'','message'=>'']);
+            $post = [];
+            $posted = current($_POST['Branches']);
+            $post['Branches'] = $posted;
+
+            if($branch->load($post)){
+                $branch->save();
+            }
+
+            echo $out;
+            return;
+        }
 
         return $this->render('index', [
             'searchModel' => $searchModel,

@@ -1,7 +1,7 @@
 <?php
 
 use yii\helpers\Html;
-use yii\grid\GridView;
+use kartik\grid\GridView;
 use yii\widgets\Pjax;
 use yii\bootstrap\Modal;
 use yii\helpers\Url;
@@ -42,7 +42,6 @@ $this->params['breadcrumbs'][] = $this->title;
         Modal::end();
     ?>
 
-    <?php Pjax::begin();?>
     <?= GridView::widget([
         'rowOptions' => function($model, $key, $index, $grid){ // ?? how $model gets its values ????????????
                 // echo PHP_EOL;
@@ -76,6 +75,8 @@ $this->params['breadcrumbs'][] = $this->title;
         // 'rowOptions' => ['c'=>'CC'],
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
+        'pjax' => true,
+        'export' => false,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
@@ -87,11 +88,15 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value' => 'companiesCompany.company_name'
             ],
 
+            [
+                'class' => 'kartik\grid\EditableColumn',
+                'attribute' => 'branch_name',
+            ],
+
             ['class' => 'yii\grid\ActionColumn'],
 
             'branch_status',
         ],
     ]); ?>
-    <?php Pjax::end();?>
 
 </div>
