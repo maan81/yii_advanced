@@ -80,18 +80,16 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'branch_name',
+            [
+                'class' => 'kartik\grid\EditableColumn',
+                'attribute' => 'branch_name',
+            ],
+
             'branch_address',
             // 'companiesCompany.company_name',
             [
                 'attribute' => 'companies_company_id',
                 'value' => 'companiesCompany.company_name'
-            ],
-
-            [
-                'class' => 'kartik\grid\EditableColumn',
-                'attribute' => 'branch_name',
-                // 'inlineSettings' => ['options' => ['a'=>'AA']],
             ],
 
             ['class' => 'yii\grid\ActionColumn'],
