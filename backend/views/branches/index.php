@@ -91,6 +91,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'class' => 'kartik\grid\EditableColumn',
                 'attribute' => 'branch_name',
+                // 'inlineSettings' => ['options' => ['a'=>'AA']],
             ],
 
             ['class' => 'yii\grid\ActionColumn'],
