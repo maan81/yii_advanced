@@ -44,7 +44,7 @@ class DashBoardAsset extends AssetBundle
         // "bootstrap/js/bootstrap.min.js",
 
         "js/raphael-min.js",
-        "plugins/morris/morris.min.js",
+        // "plugins/morris/morris.min.js",
         "plugins/sparkline/jquery.sparkline.min.js",
         "plugins/jvectormap/jquery-jvectormap-1.2.2.min.js",
         "plugins/jvectormap/jquery-jvectormap-world-mill-en.js",

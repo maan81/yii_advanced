@@ -37,13 +37,9 @@ class BranchesController extends Controller
         $searchModel = new BranchesSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-        // print_r(Yii::$app->request->post('hasEditable'));
-        // var_dump(Yii::$app->request->post('hasEditable'));
-        // die;
-
         if(Yii::$app->request->post('hasEditable')){
             $branch_id = Yii::$app->request->post('editableKey');
-            $branch = Branch::findOne($branch_id);
+            $branch = Branches::findOne($branch_id);
 
             $out = Json::encode(['output'=>'','message'=>'']);
             $post = [];
@@ -52,6 +48,7 @@ class BranchesController extends Controller
 
             if($branch->load($post)){
                 $branch->save();
+                $output = 'my value';
             }
 
             echo $out;
