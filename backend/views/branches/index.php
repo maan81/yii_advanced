@@ -5,6 +5,7 @@ use kartik\grid\GridView;
 use yii\widgets\Pjax;
 use yii\bootstrap\Modal;
 use yii\helpers\Url;
+use kartik\export\ExportMenu;
 
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\BranchesSearch */
@@ -41,6 +42,21 @@ $this->params['breadcrumbs'][] = $this->title;
 
         Modal::end();
     ?>
+
+    <?php
+
+        echo ExportMenu::widget([
+            'dataProvider' => $dataProvider,
+            'columns' => [
+                'branch_name',
+                'branch_address',
+                'branch_created_date',
+                'branch_status',
+            ],
+        ]);
+
+    ?>
+
 
     <?= GridView::widget([
         'rowOptions' => function($model, $key, $index, $grid){ // ?? how $model gets its values ????????????
