@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "342ff7e1ead71ddcd9e571050c2e6cb7",
-    "content-hash": "490343fc12d68bf727054d23bcbbb16a",
+    "hash": "386f2a6e50691e6ee5b4422e7c4b82e3",
+    "content-hash": "b2cc7bec7ce1c9cff8e58058de4948bb",
     "packages": [
         {
             "name": "2amigos/yii2-date-picker-widget",

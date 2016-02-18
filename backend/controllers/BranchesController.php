@@ -164,4 +164,51 @@ class BranchesController extends Controller
             echo '<option>Select Branch</option>';
         }
     }
+
+    public function actionImportExcel()
+    {
+        $inputFile = '/home/maan/Desktop/yii/advanced/uploads/branches_file.xlsx';
+
+        try {
+
+            $inputFileType = \PHPExcel_IOFactory::identify($inputFile);
+            $objReader = \PHPExcel_IOFactory::createReader($inputFileType);
+            $objPHPExcel = $objReader->load($inputFile);
+
+        } catch (Exception $e) {
+            die('Error ');
+        }
+
+
+        $sheet = $objPHPExcel->getSheet(0);
+
+        $highestRow = $sheet->getHighestRow();
+
+        $highestColumn = $sheet->getHighestColumn();
+
+
+        for($row=1;$row<=$highestRow;$row++)
+        {
+            $rowData = $sheet->rangeToArray('A'.$row.':'.$highestColumn.$row,null,true,false);
+
+            // remove 1st column here
+            // ..
+            // ..
+            // ..
+
+            $branch = new Branches();
+
+            $branch->branch_name = $rowData[0][0];
+            $branch->branch_address = $rowData[0][1];
+            $branch->branch_created_date = $rowData[0][2];
+            $branch->branch_status = 'active'/*$rowData[0][3]*/; // fixed. to be improved
+            $branch->companies_company_id = 1;                   // fixed. to be improved
+
+            $branch->save();
+
+            print_r($branch->getErrors());
+        }
+
+        die;
+    }
 }
